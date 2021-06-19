@@ -48,6 +48,19 @@ std::string SortArray(std::string line)
     return result;
 }
 
+bool isNumbers(std::string line)
+{
+    for (int i = 0; i < line.size(); i++)
+    {
+        if ((int(line[i]) < 48 || int(line[i]) > 57) && (int(line[i]) != 32 && int(line[i]) != 45))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 int main()
 {
     std::ofstream out;
@@ -61,17 +74,24 @@ int main()
     {
         while (getline(in, line))
         {
-            out << SortArray(line);
+            if (isNumbers(line))
+            {
+                out << SortArray(line);
+                std::cout << "Sorted! See the results in the OUTPUT.txt file" << std::endl << std::endl;
+            }
+            else
+            {
+                std::cout << "Error! Enter only numbers!" << std::endl << std::endl;
+            }
         }
     }
     else
     {
-        std::cout << "File INPUT.txt wasn't finded. Please read README.txt" << std::endl;
+        std::cout << "File INPUT.txt wasn't finded. Please create and fill it." << std::endl << std::endl;
     }
 
     in.close();
     out.close();
 
-    std::cout << "End of program" << std::endl;
     system("pause");
 }
