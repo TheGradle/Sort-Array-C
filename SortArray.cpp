@@ -1,33 +1,46 @@
 #include <iostream>
 #include <fstream>
-#include <string>
-#include <set>
 #include <vector>
 #include <sstream>
 
-std::multiset<int, std::greater<int>> VectorToMultiset(std::vector<int> numbers)
+std::vector<int> StringToVector(std::string line)
 {
-    std::multiset<int, std::greater<int>> mset;
+    std::vector<int> vector;
+    std::istringstream iss(line);
 
-    for (auto el : numbers)
+    for (std::string line; iss >> line;)
     {
-        mset.insert(el);
+        vector.push_back(stoi(line));
     }
 
-    return mset;
+    return vector;
 }
 
 std::string SortArray(std::string line)
 {
     std::string result;
-    std::vector<int> vector;
-    std::istringstream iss(line);
-    for (std::string line; iss >> line; )
-        vector.push_back(stoi(line));
+    std::vector<int> vector = StringToVector(line);
+    int max = 0;
+    int temp = 0;
 
-    std::multiset<int, std::greater<int>> mset = VectorToMultiset(vector);
+    for (int i = 0; i < vector.size(); i++)
+    {
+        max = i;
+        
+        for (int j = i + 1; j < vector.size(); j++)
+        {
+            max = (vector[j] > vector[max]) ? j : max;
+        }
 
-    for (auto el : mset)
+        if (i != max)
+        {
+            temp = vector[i];
+            vector[i] = vector[max];
+            vector[max] = temp;
+        }
+    }
+
+    for (auto el : vector)
     {
         result += std::to_string(el) + " ";
     }
